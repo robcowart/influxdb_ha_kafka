@@ -36,7 +36,7 @@ services:
       KAFKA_CLIENT_ID: 'telegraf'
 
       # The name of the consumer group to which this client instance is a member.
-      KAFKA_CONSUMER_GROUP: 'influx_v2_lab'
+      KAFKA_CONSUMER_GROUP: 'influx_v2'
       
       # The initial offset position ("oldest" or "newest").
       KAFKA_OFFSET: 'oldest'
