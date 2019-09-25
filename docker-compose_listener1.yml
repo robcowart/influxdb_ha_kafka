@@ -1,0 +1,85 @@
+#------------------------------------------------------------------------------
+# Copyright 2019 Robert Cowart
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#------------------------------------------------------------------------------
+
+version: '3'
+services:
+  influxdb-listener1:
+    image: robcowart/influxdb-ha-kafka:listener1_0.0.1
+    container_name: influxdb-listener1
+    restart: unless-stopped
+    network_mode: bridge
+    ports:
+      - 8086:8086/tcp
+    environment:
+        # Address and port to on which the input listens for InfluxDB HTTP write requests.
+        LISTENER_SERVICE_ADDRESS: '0.0.0.0:8086'
+
+        # The maximum duration before the requests will timeout.
+        LISTENER_READ_TIMEOUT: '10s'
+        # The maximum duration before the response will timeout.
+        LISTENER_WRITE_TIMEOUT: '10s'
+
+        # The maximum allowed HTTP request body size, in bytes. Set to 0 for the default of 536,870,912 bytes (512 MiB)
+        LISTENER_MAX_BODY_SIZE: 0
+        # The maximum line length, in bytes. Set to 0 for the default of 65,536 bytes (64 KiB)
+        LISTENER_MAX_LINE_SIZE: 0
+
+        # The username for HTTP basic authentication.
+        LISTENER_BASIC_USERNAME: 'telegraf'
+        # The password for HTTP basic authentication.
+        LISTENER_BASIC_PASSWORD: 'changeme'
+
+        # The tag name used to store the database name.
+        LISTENER_DATABASE_TAG: 'influxdb_database_name'
+
+
+
+        # The Kafka broker to which to connect.
+        KAFKA_BROKER: '192.2.0.1:9092'
+
+        # The Kafka topic to which messages should be produced.
+        KAFKA_TOPIC: 'influxdb-ha-kafka'
+
+        # The minimal supported Kafka version. When set to a more recent version new Kafka features and APIs can be
+        # leveraged, e.g. LZ4 compression. At least version 0.10.0.0 is required.
+        KAFKA_VERSION: '2.0.0'
+
+        # The Client ID.
+        KAFKA_CLIENT_ID: 'telegraf'
+
+        # The tag to use as a routing key.
+        KAFKA_ROUTING_TAG: 'host'
+
+        # The compression codec to be used.
+        #   0: No compression
+        #   1: GZip
+        #   2: Snappy
+        #   3: LZ4
+        KAFKA_COMPRESSION_CODEC: 0
+
+        # Tells the broker how many replica acknowledgements it must see before responding.
+        #   0: The producer never waits for an acknowledgement from the broker. This provides the lowest latency but
+        #      the least durability guarantee (some data could be lost if a server fails).
+        #   1: The producer gets an acknowledgement after the leader replica has received the data. This provides
+        #      better durability as the producer waits until the server acknowledges the request as successful (only
+        #      messages that were written to the now-dead leader but not yet replicated will be lost).
+        #  -1: The producer gets an acknowledgement after all in-sync replicas have received the data. This option
+        #      provides the best durability. No messages will be lost as long as at least one in-sync replica
+        #      is available.
+        KAFKA_REQUIRED_ACKS: -1
+
+        # The maximum number of times to retry sending data before failing until the next flush.
+        KAFKA_MAX_RETRY: 3

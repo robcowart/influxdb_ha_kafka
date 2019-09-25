@@ -1,0 +1,96 @@
+#------------------------------------------------------------------------------
+# Copyright 2019 Robert Cowart
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#------------------------------------------------------------------------------
+
+version: '3'
+services:
+  influxdb-writer1:
+    image: robcowart/influxdb-ha-kafka:writer1_0.0.1
+    container_name: influxdb-writer1
+    restart: unless-stopped
+    network_mode: bridge
+    environment:
+      # Kafka broker to which to connect.
+      KAFKA_BROKER: '192.2.0.1:9092'
+
+      # The topic from which to consume messages.
+      KAFKA_TOPIC: 'influxdb-ha-kafka'
+
+      # The minimal supported Kafka version. When set to a more recent version new Kafka features and APIs can be
+      # leveraged, e.g. LZ4 compression. At least version 0.10.0.0 is required.
+      KAFKA_VERSION: '2.0.0'
+
+      # The Client ID.
+      KAFKA_CLIENT_ID: 'telegraf'
+
+      # The name of the consumer group to which this client instance is a member.
+      KAFKA_CONSUMER_GROUP: 'influx_v1_prod'
+      
+      # The initial offset position ("oldest" or "newest").
+      KAFKA_OFFSET: 'oldest'
+
+      # The maximum length (in bytes) of a message to consume. The default value is 0 (unlimited). Larger messages are
+      # dropped.
+      KAFKA_MAX_MESSAGE_LENGTH: 1000000
+
+      # The maximum number of messages to read from the broker that have not been written by an output. For best
+      # throughput set based on the number of metrics within each message and the size of the output's
+      # metric_batch_size. For example, if each message from the queue contains 10 metrics and the output
+      # metric_batch_size is 1000, setting this to 100 will ensure that a full batch is collected and the write is
+      # triggered immediately without waiting until the next flush_interval.
+      KAFKA_MAX_UNDELIVERED_MESSAGES: 1000
+
+
+
+      # The full HTTP URL of the InfluxDB to which you want to send data.
+      WRITER_URL: 'http://192.2.0.1:8086'
+
+      # HTTP Basic Authentication
+      WRITER_USERNAME: 'admin'
+      WRITER_PASSWORD: 'changeme'
+
+      # The value of this tag will be used to determine the database to which data should be written. If this
+      # tag is not set the 'database' parameter is used as the default.
+      WRITER_DATABASE_TAG: 'influxdb_database_name'
+
+      # If true, the database tag will not be added as a field.
+      WRITER_EXCLUDE_DATABASE_TAG: 'true'
+
+      # The database to which data will be sent. If using HTTP, the database will be created if it doesn't exist.
+      WRITER_DATABASE: 'telegraf'
+
+      # If true, no CREATE DATABASE queries will be sent. Set to true when using Telegraf with a user without
+      # permissions to create databases or when the database already exists.
+      WRITER_SKIP_DATABASE_CREATION: 'false'
+
+      # The name of existing retention policy to write to. An empty string writes to the default retention policy.
+      WRITER_RETENTION_POLICY: ''
+
+      # Write consistency (clusters only), can be: "any", "one", "quorum", "all".
+      WRITER_WRITE_CONSISTENCY: 'any'
+
+      # The timeout duration for HTTP messages.
+      WRITER_TIMEOUT: '5s'
+
+      # HTTP User-Agent
+      WRITER_USER_AGENT: 'telegraf'
+
+      # HTTP Content-Encoding for write request body, can be set to "gzip" to compress body or "identity" to apply no
+      # encoding.
+      WRITER_CONTENT_ENCODING: 'identity'
+
+      # Set to true, to configure Telegraf to output unsigned integers as unsigned values, i.e.: "42u". Enabling this
+      # option will result in field type errors if existing data has been written.
+      WRITER_INFLUX_UINT_SUPPORT: 'false'
