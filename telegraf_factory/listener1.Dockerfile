@@ -20,12 +20,12 @@ ARG BUILD_DATE
 
 LABEL org.opencontainers.image.created="$BUILD_DATE" \
       org.opencontainers.image.authors="elastiflow@gmail.com" \
-      org.opencontainers.image.url="https://hub.docker.com/r/robcowart/influxdb_ha_kakfa" \
-      org.opencontainers.image.documentation="https://github.com/robcowart/influxdb_ha_kakfa/README.md" \
-      org.opencontainers.image.source="https://github.com/robcowart/influxdb_ha_kakfa" \
+      org.opencontainers.image.url="https://hub.docker.com/r/robcowart/influxdb_ha_kafka" \
+      org.opencontainers.image.documentation="https://github.com/robcowart/influxdb_ha_kafka/README.md" \
+      org.opencontainers.image.source="https://github.com/robcowart/influxdb_ha_kafka" \
       org.opencontainers.image.version="listener1_0.0.1" \
       org.opencontainers.image.vendor="Robert Cowart" \
-      org.opencontainers.image.title="influxdb-ha-kakfa" \
+      org.opencontainers.image.title="influxdb-ha-kafka" \
       org.opencontainers.image.description="Telegraf containers which leverage Kafka to replicate data between multiple InfluxDB instances." \
       org.opencontainers.image.licenses="Apache-2.0"
 
