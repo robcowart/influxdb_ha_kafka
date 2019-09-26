@@ -14,4 +14,4 @@
 # limitations under the License.
 #------------------------------------------------------------------------------
 
-docker build --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --squash -f ./writer2.Dockerfile -t robcowart/influxdb-ha-kafka:writer2_0.0.1 .
+docker build --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --squash -f ./writer2.Dockerfile -t robcowart/influxdb-ha-kafka:writer2_0.0.2 .
