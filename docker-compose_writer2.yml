@@ -17,7 +17,7 @@
 version: '3'
 services:
   influxdb-ha-writer2:
-    image: robcowart/influxdb-ha-kafka:writer2_0.0.2
+    image: robcowart/influxdb-ha-kafka:writer2_0.0.3
     container_name: influxdb-ha-writer2
     restart: unless-stopped
     network_mode: bridge

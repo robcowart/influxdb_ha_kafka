@@ -17,7 +17,7 @@
 version: '3'
 services:
   influxdb-listener1:
-    image: robcowart/influxdb-ha-kafka:listener1_0.0.2
+    image: robcowart/influxdb-ha-kafka:listener1_0.0.3
     container_name: influxdb-listener1
     restart: unless-stopped
     network_mode: bridge

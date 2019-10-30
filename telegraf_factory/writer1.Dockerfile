@@ -14,7 +14,7 @@
 # limitations under the License.
 #------------------------------------------------------------------------------
 
-FROM telegraf:1.12.2-alpine
+FROM telegraf:1.12.4-alpine
 
 ARG BUILD_DATE
 
@@ -23,7 +23,7 @@ LABEL org.opencontainers.image.created="$BUILD_DATE" \
       org.opencontainers.image.url="https://hub.docker.com/r/robcowart/influxdb_ha_kafka" \
       org.opencontainers.image.documentation="https://github.com/robcowart/influxdb_ha_kafka/README.md" \
       org.opencontainers.image.source="https://github.com/robcowart/influxdb_ha_kafka" \
-      org.opencontainers.image.version="writer1_0.0.2" \
+      org.opencontainers.image.version="writer1_0.0.3" \
       org.opencontainers.image.vendor="Robert Cowart" \
       org.opencontainers.image.title="influxdb-ha-kafka" \
       org.opencontainers.image.description="Telegraf containers which leverage Kafka to replicate data between multiple InfluxDB instances." \
